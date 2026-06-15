@@ -6,7 +6,22 @@ on:
       # specifying activity types for that workflow
       - opened
       - edited
+    branches:
+      # only pushes to the main branch will now trigger that workflow
+      - main
+      # only branches starting with 'dev-*' will trigger that workflow
+      - "dev-*"
+      # only branches starting with 'feat/**' but '**' allows to use slashes in the branch name
+      - "feat/**"
   workflow_dispatch:
+  # this event (push) will not run only if we made a oush to one of the defined branches, but we did not trigger the workflows folder
+  push:
+    branches:
+      - main
+      - "dev-*"
+      - "feat/**"
+    paths-ignore:
+      - ".github/workflows/*"
 jobs:
   deploy:
     runs-on: ubuntu-latest
